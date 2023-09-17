@@ -1,12 +1,14 @@
-# train_evaluate/train_evaluate.py
 import torch
-from utils import config
-from data import data_gen
+from configs import config
+import torch.nn as nn
+from data_processing.data_handle import datagen  # Import the CustomDataset
+from torchvision import transforms
+from torch.utils.data import DataLoader  # Import DataLoader
 
 
 def iou_coef(y_true, y_pred, smooth=1):
-    intersection = torch.sum(torch.abs(y_true * y_pred), dim=[1,2,3])
-    union = torch.sum(y_true, dim=[1,2,3]) + torch.sum(y_pred, dim=[1,2,3]) - intersection
+    intersection = torch.sum(torch.abs(y_true * y_pred), dim=[1, 2, 3])
+    union = torch.sum(y_true, dim=[1, 2, 3]) + torch.sum(y_pred, dim=[1, 2, 3]) - intersection
     iou = torch.mean((intersection + smooth) / (union + smooth), dim=0)
     return iou.item()
 
@@ -15,11 +17,21 @@ def train(model, train_image_paths, train_mask_paths):
     # Initialize training configurations
     training_config = config.TrainingConfig()
 
-    # Create a DataLoader from the custom dataset
-    train_dataloader = data_gen.datagen(train_image_paths,train_mask_paths);
+    IMAGE_SIZE = 256
+    # Define your custom transformations (resize and convert to tensor)
+    transform = transforms.Compose([
+        transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
+        transforms.ToTensor()
+    ])
+
+    # Create instances of the dataset with the specified transformations
+    # train_dataset = CustomDataset(train_image_paths, train_mask_paths, transform=transform)
+
+    # Create a DataLoader for training data
+    train_dataloader = datagen(train_image_paths,train_mask_paths)
 
     # Define your loss function
-    loss_function = torch.nn.CrossEntropyLoss()
+    loss_function = nn.BCELoss()
 
     # Define optimizer with the specified learning rate
     optimizer = torch.optim.Adam(model.parameters(), lr=training_config.learning_rate)
@@ -30,6 +42,7 @@ def train(model, train_image_paths, train_mask_paths):
         running_loss = 0.0
         running_iou = 0.0
         for inputs, labels in train_dataloader:
+            print(inputs.shape)
             optimizer.zero_grad()
             outputs = model(inputs)
             loss = loss_function(outputs, labels)
