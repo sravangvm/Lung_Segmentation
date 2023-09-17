@@ -2,6 +2,9 @@ import torch.nn as nn
 
 class UNet(nn.Module):
     def __init__(self, in_channels=1, out_channels=1):
+        """
+            This function contains the model ararchitecture we want to train
+        """
         super(UNet, self).__init__()
 
         # Encoder

@@ -14,6 +14,10 @@ def iou_coef(y_true, y_pred, smooth=1):
 
 
 def train(model, train_image_paths, train_mask_paths):
+
+    """
+        This function is used to train the model
+    """
     # Initialize training configurations
     training_config = config.TrainingConfig()
 

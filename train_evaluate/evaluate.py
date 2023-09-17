@@ -3,6 +3,10 @@ import numpy as np
 
 
 def evaluate_model(model, dataloader, device):
+
+    """
+        This function is used to evaluate the model
+    """
     model.eval()  # Set the model to evaluation mode
     iou_scores = []
     accuracy_scores = []

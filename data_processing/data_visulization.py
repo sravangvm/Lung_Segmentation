@@ -3,6 +3,10 @@ from data_handle import open_images
 
 
 def visualize_images(image_paths):
+    """
+        This function is used to visualize images
+    """
+
     fig = plt.figure(figsize=(100, 100))
     for i in range(1, 5):
         fig.add_subplot(18, 54, i)
@@ -13,6 +17,9 @@ def visualize_images(image_paths):
 
 
 def visualize_masks(mask_paths):
+    """
+        This function is used to visualize masks
+    """
     fig = plt.figure(figsize=(100, 100))
     for i in range(1, 5):
         fig.add_subplot(18, 54, i)
@@ -23,6 +30,9 @@ def visualize_masks(mask_paths):
 
 
 def visualize_image_mask_pairs(image_paths, mask_paths):
+    """
+        This function is used to visualize images paired with masks
+    """
     fig = plt.figure(figsize=(12, 12))
     c = 3
     r = 3

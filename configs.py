@@ -1,6 +1,10 @@
 import torch
 class TrainingConfig:
     def __init__(self):
+
+        """
+        This function contains different model configs
+        """
         # Data paths
         self.train_image_paths = 'Datasets/train_image_paths.txt'
         self.train_mask_paths = 'Datasets/train_mask_paths.txt'

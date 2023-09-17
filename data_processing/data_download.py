@@ -2,6 +2,10 @@ import os
 import subprocess
 
 def download_dataset(dataset_name_or_url='tawsifurrahman/covid19-radiography-database', kaggle_json_path="kaggle.json"):
+    """
+        This function is used to download dataset into Dataset Folder, with a prerequisite of having a kaggle.json file in the root.
+    """
+
     # Step 1: Install the Kaggle package (if not already installed)
     try:
         import kaggle
